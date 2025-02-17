@@ -17,3 +17,14 @@ test "Char to string" {
     const result: []const u8 = try ztring.charToString(char, &buffer);
     try testing.expect(@TypeOf(result) == []const u8);
 }
+
+test "Get substring" {
+    const string = "Hello there";
+    var buffer: [100]u8 = undefined;
+    const result = try ztring.getSubstring(string, "there", &buffer);
+    const expected= "there";
+    try testing.expect(std.mem.eql(u8, result, expected));
+
+    const result2 = try ztring.getSubstring("This is another string", "another", &buffer);
+    try testing.expect(std.mem.eql(u8, result2, "another"));
+}

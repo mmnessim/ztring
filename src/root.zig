@@ -23,3 +23,31 @@ pub fn charToString(char: u8, buffer: []u8) ![]const u8 {
     const result = try std.fmt.bufPrint(buffer, "{c}", .{char});
     return result;
 }
+
+// TODO build fn getSubstring
+// probably iterate through all characters recursively to build substring?
+// probably needs a buffer
+pub fn getSubstring(input: []const u8, substring: []const u8, buffer: []u8) ![]const u8 {
+    var start: usize = 0;
+    var end: usize = 0;
+    for (input, 0..) |letter, index| {
+        if (letter == substring[0]) {
+            if (input[index + 1] == substring[1]) {
+                start = index;
+                end = index;
+            }
+        }
+    }
+    for (substring, start..) |letter, index| {
+        if (letter == input[index]) {
+            end += 1;
+            continue;
+        } else {
+            //end = index;
+            break;
+        }
+    }
+    const result = try std.fmt.bufPrint(buffer, "{s}", .{input[start..end]});
+    std.debug.print("Result: {s}\n", .{result});
+    return result;
+}
