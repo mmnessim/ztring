@@ -32,9 +32,13 @@ pub fn getSubstring(input: []const u8, substring: []const u8, buffer: []u8) ![]c
     var end: usize = 0;
     for (input, 0..) |letter, index| {
         if (letter == substring[0]) {
-            if (input[index + 1] == substring[1]) {
-                start = index;
-                end = index;
+            inner: for (substring) |sLetter| {
+                if (input[index] == sLetter) {
+                    start = index;
+                    end = index;
+                } else {
+                    break :inner;
+                }
             }
         }
     }
