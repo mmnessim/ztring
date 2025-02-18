@@ -16,19 +16,20 @@ test "Char to string" {
     var buffer: [100]u8 = undefined;
     const result: []const u8 = try ztring.charToString(char, &buffer);
     try testing.expect(@TypeOf(result) == []const u8);
+    try testing.expect(std.mem.eql(u8, result, "a"));
 }
 
 test "Get substring" {
     const string = "Hello there";
-    var buffer: [100]u8 = undefined;
-    const result = try ztring.getSubstring(string, "there", &buffer);
+
+    const result = try ztring.getSubstring(string, "there");
     const expected = "there";
     try testing.expect(std.mem.eql(u8, result, expected));
 
-    const result2 = try ztring.getSubstring("This is another string", "another", &buffer);
+    const result2 = try ztring.getSubstring("This is another string", "another");
     try testing.expect(std.mem.eql(u8, result2, "another"));
 
-    const result3 = try ztring.getSubstring("ab abcde abcdefg", "bcde", &buffer);
+    const result3 = try ztring.getSubstring("ab abcde abcdefg", "bcde");
     try testing.expect(std.mem.eql(u8, result3, "bcde"));
 }
 
