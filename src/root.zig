@@ -64,7 +64,7 @@ pub fn getSubstring(input: []const u8, substring: []const u8) ![]const u8 {
     return result;
 }
 
-pub fn splitString(input: []const u8, delimiter: u8) !struct { []const u8, []const u8 } {
+pub fn splitString(input: []const u8, delimiter: u8) !SplitResult {
     var separationPoint: usize = 0;
     for (input, 0..) |letter, index| {
         if (letter == delimiter) {
@@ -73,9 +73,14 @@ pub fn splitString(input: []const u8, delimiter: u8) !struct { []const u8, []con
     }
 
     if (separationPoint != 0) {
-        const result = .{ input[0..separationPoint], input[separationPoint..] };
+        const result = SplitResult{ .first = input[0..separationPoint], .second = input[separationPoint..] };
         return result;
     }
 
     return ZtringError.NotFound;
 }
+
+pub const SplitResult = struct {
+    first: []const u8,
+    second: []const u8,
+};

@@ -39,8 +39,8 @@ test "Get substring" {
 test "Split string" {
     const string: []const u8 = "altogether";
     const result = try ztring.splitString(string, 'g');
-    try testing.expect(std.mem.eql(u8, result[0], "altog"));
-    try testing.expect(std.mem.eql(u8, result[1], "ether"));
+    try testing.expect(std.mem.eql(u8, result.first, "altog"));
+    try testing.expect(std.mem.eql(u8, result.second, "ether"));
     const err = ztring.splitString(string, '!');
     try testing.expect(err == ztring.ZtringError.NotFound);
 }
