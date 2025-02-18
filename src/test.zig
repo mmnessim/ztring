@@ -31,3 +31,12 @@ test "Get substring" {
     const result3 = try ztring.getSubstring("ab abcde abcdefg", "bcde", &buffer);
     try testing.expect(std.mem.eql(u8, result3, "bcde"));
 }
+
+test "Split string" {
+    const string: []const u8 = "altogether";
+    const result = try ztring.splitString(string, 'g');
+    try testing.expect(std.mem.eql(u8, result[0], "altog"));
+    try testing.expect(std.mem.eql(u8, result[1], "ether"));
+    const err = ztring.splitString(string, '!');
+    try testing.expect(err == ztring.ZtringError.NotFound);
+}

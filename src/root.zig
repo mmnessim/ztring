@@ -4,6 +4,10 @@
 const std = @import("std");
 const testing = std.testing;
 
+pub const ZtringError = error{
+    NotFound,
+};
+
 pub fn concatString(str1: []const u8, str2: []const u8, buffer: []u8) ![]const u8 {
     var gpa = std.heap.GeneralPurposeAllocator(.{}){};
     defer _ = gpa.deinit();
@@ -24,9 +28,6 @@ pub fn charToString(char: u8, buffer: []u8) ![]const u8 {
     return result;
 }
 
-// TODO build fn getSubstring
-// probably iterate through all characters recursively to build substring?
-// probably needs a buffer
 pub fn getSubstring(input: []const u8, substring: []const u8, buffer: []u8) ![]const u8 {
     var start: usize = 0;
     var end: usize = 0;
@@ -54,4 +55,23 @@ pub fn getSubstring(input: []const u8, substring: []const u8, buffer: []u8) ![]c
     const result = try std.fmt.bufPrint(buffer, "{s}", .{input[start..end]});
     std.debug.print("Result: {s}\n", .{result});
     return result;
+}
+
+pub fn splitString(input: []const u8, delimiter: u8) !struct { []const u8, []const u8 } {
+    var separationPoint: usize = 0;
+    for (input, 0..) |letter, index| {
+        if (letter == delimiter) {
+            std.debug.print("FOUND {c} at {d}\n", .{ letter, index });
+            std.debug.print("{s}\n", .{input[0 .. index + 1]});
+            std.debug.print("{s}\n", .{input[index + 1 ..]});
+            separationPoint = index + 1;
+        }
+    }
+
+    if (separationPoint != 0) {
+        const result = .{ input[0..separationPoint], input[separationPoint..] };
+        return result;
+    }
+
+    return ZtringError.NotFound;
 }
