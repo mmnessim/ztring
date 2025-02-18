@@ -31,6 +31,9 @@ test "Get substring" {
 
     const result3 = try ztring.getSubstring("ab abcde abcdefg", "bcde");
     try testing.expect(std.mem.eql(u8, result3, "bcde"));
+
+    const err = ztring.getSubstring("Hello", "r");
+    try testing.expect(err == ztring.ZtringError.NotFound);
 }
 
 test "Split string" {

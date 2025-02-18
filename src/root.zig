@@ -32,17 +32,22 @@ pub fn getSubstring(input: []const u8, substring: []const u8) ![]const u8 {
     var start: usize = 0;
     var end: usize = 0;
     for (input, 0..) |letter, index| {
+        // Find first letter of the substring
         if (letter == substring[0]) {
             inner: for (substring) |sLetter| {
+                // Check all letters for matches, update index
                 if (input[index] == sLetter) {
                     start = index;
                     end = index;
                 } else {
+                    // Break and search for first letter again if
+                    // nonmatching letter is found
                     break :inner;
                 }
             }
         }
     }
+    // Iterate through substring
     for (substring, start..) |letter, index| {
         if (letter == input[index]) {
             end += 1;
@@ -53,6 +58,9 @@ pub fn getSubstring(input: []const u8, substring: []const u8) ![]const u8 {
         }
     }
     const result = input[start..end];
+    if (end == 0) {
+        return ZtringError.NotFound;
+    }
     return result;
 }
 
