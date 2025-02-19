@@ -44,3 +44,21 @@ test "Split string" {
     const err = ztring.splitString(string, '!');
     try testing.expect(err == ztring.ZtringError.NotFound);
 }
+
+test "Num to string" {
+    const num: i32 = 1234;
+    var buffer: [100]u8 = undefined;
+    const result = try ztring.numToString(num, &buffer);
+
+    try testing.expect(std.mem.eql(u8, result, "1234"));
+
+    const float: f32 = 1.234;
+    const result2 = try ztring.numToString(float, &buffer);
+
+    try testing.expect(std.mem.eql(u8, result2, "1.234"));
+
+    //const notANumber = "hello";
+    //const result3 = ztring.numToString(notANumber, &buffer);
+    //
+    //try testing.expect(result3 == ztring.ZtringError.FormatError);
+}

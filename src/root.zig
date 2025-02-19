@@ -2,10 +2,12 @@
 //! you are making an executable, the convention is to delete this file and
 //! start with main.zig instead.
 const std = @import("std");
+const ascii = std.ascii;
 const testing = std.testing;
 
 pub const ZtringError = error{
     NotFound,
+    FormatError,
 };
 
 pub fn concatString(str1: []const u8, str2: []const u8, buffer: []u8) ![]const u8 {
@@ -84,3 +86,9 @@ pub const SplitResult = struct {
     first: []const u8,
     second: []const u8,
 };
+
+//TODO handle non-number inputs somehow
+pub fn numToString(num: anytype, buffer: []u8) ![]const u8 {
+    const result = try std.fmt.bufPrint(buffer, "{d}", .{num});
+    return result;
+}
