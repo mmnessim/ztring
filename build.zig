@@ -10,6 +10,17 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize,
     });
 
+    const exe = b.addExecutable(.{
+        .name = "ztring",
+        .root_source_file = b.path("src/main.zig"),
+        .target = target,
+        .optimize = optimize,
+    });
+
+    const run_cmd = b.addRunArtifact(exe);
+    const run_step = b.step("run", "Build and run");
+    run_step.dependOn(&run_cmd.step);
+
     const unit_tests = b.addTest(.{
         .root_source_file = b.path("src/test.zig"),
         .target = target,

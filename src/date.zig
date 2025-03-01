@@ -1,10 +1,10 @@
 pub const date = struct {
-    year: i16,
-    month: i8,
-    day: i8,
-    hour: i8,
-    minute: i8,
-    second: i8,
+    year: u16,
+    month: u8,
+    day: u8,
+    hour: u8,
+    minute: u8,
+    second: u8,
 };
 
 pub fn timeParser(time: *i64) !date {
@@ -14,12 +14,12 @@ pub fn timeParser(time: *i64) !date {
     const DAY: i64 = 86400;
     const HOUR: i64 = 3600;
 
-    var currentYear: i16 = 1970;
-    var currentMonth: i8 = 1;
-    var currentDay: i8 = 0;
-    var currentHour: i8 = 0;
-    var currentMinute: i8 = 0;
-    var currentSecond: i8 = 0;
+    var currentYear: u16 = 1970;
+    var currentMonth: u8 = 1;
+    var currentDay: u8 = 0;
+    var currentHour: u8 = 0;
+    var currentMinute: u8 = 0;
+    var currentSecond: u8 = 0;
 
     time.* -= (HOUR * 5); // Timezone adjustment
     time.* += 27; //leap seconds to date
@@ -62,7 +62,7 @@ pub fn timeParser(time: *i64) !date {
     };
 }
 
-fn monthSwitch(month: i8, currentYear: i16) i64 {
+fn monthSwitch(month: u8, currentYear: u16) i64 {
     const DAY: i64 = 86400;
     switch (month) {
         1, 3, 5, 7, 8, 10, 12 => return 31 * DAY,
