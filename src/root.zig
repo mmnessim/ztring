@@ -5,7 +5,7 @@ const std = @import("std");
 const ascii = std.ascii;
 const testing = std.testing;
 
-const date = @import("date.zig");
+pub const date = @import("date.zig");
 
 pub const ZtringError = error{
     NotFound,
